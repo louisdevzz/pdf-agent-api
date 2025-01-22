@@ -1,0 +1,11 @@
+fastapi
+python-multipart
+uvicorn
+langchain
+langchain-community
+faiss-cpu
+requests
+PyPDF2
+python-docx
+openpyxl
+pydantic
