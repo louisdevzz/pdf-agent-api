@@ -70,8 +70,47 @@ The API service provides the following endpoints:
 - `POST /upload`: Upload PDF files for processing
 - `POST /ask`: Ask questions about the uploaded documents
 
-## Notes
+## Testing with Postman
 
-- The API service depends on the Ollama service being available
-- Make sure your system has sufficient GPU resources for running the LLM model
-- The API service uses FastAPI and supports automatic API documentation at `/docs` 
+### 1. Upload PDF Files
+- **Endpoint**: `POST http://localhost:8000/upload`
+- **Request Type**: Form-data
+- **Headers**: None required
+- **Body**: 
+  - Key: `files` (Type: File)
+  - Select one or multiple PDF files
+- **Expected Response**:
+```json
+{
+    "message": "Files uploaded and processed successfully",
+    "file_paths": ["./uploads/your_file.pdf"]
+}
+```
+
+### 2. Ask Questions
+- **Endpoint**: `POST http://localhost:8000/ask`
+- **Request Type**: Raw JSON
+- **Headers**: 
+  - Content-Type: application/json
+- **Body**:
+```json
+{
+    "question": "Your question about the PDF content"
+}
+```
+- **Expected Response**:
+```json
+{
+    "answer": "The answer to your question based on the PDF content"
+}
+```
+
+### Testing Steps
+1. Start the API service using Docker Compose
+2. Open Postman
+3. First, use the upload endpoint to send your PDF files
+4. Wait for the upload confirmation
+5. Then, use the ask endpoint to ask questions about the uploaded documents
+6. You should receive relevant answers based on the PDF content
+
+**Note**: Make sure all services are running before testing. If you get connection errors, verify that both the Ollama service and API service are up and running.
