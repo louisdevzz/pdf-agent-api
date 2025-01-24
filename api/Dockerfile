@@ -1,20 +1,19 @@
-# Sử dụng base image Python
-FROM python:3.9-slim
+FROM python:3.11-slim
 
-# Thiết lập thư mục làm việc
 WORKDIR /app
 
-# Copy file requirements vào container
+# Install system dependencies for PDF processing
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    python3-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy requirements first for better caching
 COPY requirements.txt .
-
-# Cài đặt các thư viện Python
 RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir faiss-cpu
 
-# Copy mã nguồn vào container
+# Copy the rest of the application
 COPY . .
 
-# Expose port cho API
-EXPOSE 8000
-
-# Khởi chạy API
 CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000"]

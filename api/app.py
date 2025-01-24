@@ -74,7 +74,11 @@ def save_vectorstore(vectorstore, path="vectorstore"):
     vectorstore.save_local(path)
 
 def load_vectorstore(path="vectorstore"):
-    vectorstore = FAISS.load_local(path, embeddings)
+    vectorstore = FAISS.load_local(
+        path, 
+        embeddings,
+        allow_dangerous_deserialization=True
+    )
     return vectorstore
 
 def read_files(file_paths):
